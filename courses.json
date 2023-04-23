@@ -1,0 +1,20 @@
+[
+  {
+    "courseName": "Introduction to Computer Science",
+    "subjectArea": "Computer Science",
+    "description": "An introduction to the basic concepts of computer programming and computer science.",
+    "numberOfCredits": 3
+  },
+  {
+    "courseName": "Calculus I",
+    "subjectArea": "Mathematics",
+    "description": "A first course in calculus including limits, continuity, derivatives, and integrals.",
+    "numberOfCredits": 4
+  },
+  {
+    "courseName": "Introduction to Psychology",
+    "subjectArea": "Psychology",
+    "description": "An introduction to the scientific study of behavior and mental processes.",
+    "numberOfCredits": 3
+  }
+]
