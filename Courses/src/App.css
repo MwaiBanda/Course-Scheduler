@@ -22,6 +22,10 @@
 
  .align-left {
   text-align: start;
+  margin-left: -40px;
+ }
+ .left-text {
+  text-align: start;
  }
 
  .pad-start {
@@ -29,8 +33,13 @@
  }
 
  .pad-end {
-  margin-right: 0.5em;
+  margin-right: 0.65em;
  }
+
+ .pad-bottom {
+  margin-top: 20px;
+ }
+ 
  .align-column {
     display: flex;
     flex-direction: column;
@@ -40,11 +49,17 @@
 
  .align-row {
   display: flex;
+  margin-top: 10px;
  }
 
  .btn {
   max-height: 50px;
  }
+ .delete {
+  margin: 10px;
+  margin-top: 23px ;
+ }
+
 
 
  

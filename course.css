@@ -1,8 +1,0 @@
-/* Basic styling for the courses list */
-.course {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-}

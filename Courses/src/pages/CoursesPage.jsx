@@ -44,36 +44,35 @@ export default function CoursesPage(props) {
     }
     return (
         <>
-            <h1>Courses</h1>
             <ul>
                 {!isEditing ?
-                    <div className="course">
+                    <div className="course pad-bottom">
                         <div className="align-left pad-start">
-                            <label htmlFor="courseName">Course: </label>
-                            <input type="text" id="courseName" name="courseName" input={courseName} onInput={(e) => {
+                            <label htmlFor="courseName"><b>Course</b>: </label>
+                            <input className="form-control" type="text" id="courseName" name="courseName" input={courseName} onInput={(e) => {
                                 setCourseName(e.target.value)
                             }} />
                         </div>
                         <div className="align-left pad-start">
-                            <label htmlFor="subjectArea">Subject: </label>
-                            <input type="text" id="subjectArea" name="subjectArea" input={subjectArea} onInput={(e) => {
+                            <label htmlFor="subjectArea"><b>Subject</b>: </label>
+                            <input className="form-control" type="text" id="subjectArea" name="subjectArea" input={subjectArea} onInput={(e) => {
                                 setSubjectArea(e.target.value)
                             }} />
                         </div>
 
                         <div className="align-left pad-start">
-                            <label htmlFor="description">Description: </label>
-                            <input type="text" id="description" name="description" input={description} onInput={(e) => {
+                            <label htmlFor="description"><b>Description</b>: </label>
+                            <input className="form-control" type="text" id="description" name="description" input={description} onInput={(e) => {
                                 setDescription(e.target.value)
                             }} />
                         </div>
                         <div className="align-left pad-start">
-                            <label htmlFor="numberOfCredits">Credits: </label>
-                            <input type="text" id="fnanumberOfCredits" name="numberOfCredits" input={numberOfCredits} onInput={(e) => {
+                            <label htmlFor="numberOfCredits"><b>Credits</b>: </label>
+                            <input className="form-control" type="text" id="fnanumberOfCredits" name="numberOfCredits" input={numberOfCredits} onInput={(e) => {
                                 setNumberOfCredits(e.target.value)
                             }} />
                         </div>
-                        <button className="delete btn btn-primary" onClick={() => {
+                        <button className="delete btn btn-secondary" onClick={() => {
                             setCourse((courses) => [...courses, {
                                 "id": courses[courses.length - 1].id + 1,
                                 "courseName": courseName,
@@ -93,19 +92,19 @@ export default function CoursesPage(props) {
                         <div className="align-column">
 
 
-                            <div className="align-left">
+                            <div className={isEditing && courseToEdit.id === course.id  ? "align-left" : "left-text"} >
                                 {isEditing && courseToEdit.id === course.id ?
                                     <div className="align-left pad-start">
-                                        <label htmlFor="courseName">Course: </label>
-                                        <input type="text" id="courseName" name="courseName" value={courseName} onInput={(e) => {
+                                        <label htmlFor="courseName"><b>Course</b>: </label>
+                                        <input className="form-control" type="text" id="courseName" name="courseName" value={courseName} onInput={(e) => {
                                             setCourseName(e.target.value)
                                         }} />
                                     </div> : <h1>{course.courseName}</h1>
                                 }
                                 {isEditing && courseToEdit.id === course.id ?
                                     <div className="align-left pad-start">
-                                        <label htmlFor="subjectArea">Subject: </label>
-                                        <input type="text" id="subjectArea" name="subjectArea"  value={subjectArea} input={subjectArea} onInput={(e) => {
+                                        <label htmlFor="subjectArea"><b>Subject</b>: </label>
+                                        <input className="form-control" type="text" id="subjectArea" name="subjectArea"  value={subjectArea} input={subjectArea} onInput={(e) => {
                                             setSubjectArea(e.target.value)
                                         }} />
                                     </div> : <p><b>Subject Area</b>: {course.subjectArea}</p>
@@ -113,23 +112,23 @@ export default function CoursesPage(props) {
 
                                 {isEditing && courseToEdit.id === course.id ?
                                     <div className="align-left pad-start">
-                                        <label htmlFor="description">Description: </label>
-                                        <input type="text" id="description" name="description" value={description} input={description} onInput={(e) => {
+                                        <label htmlFor="description"><b>Description</b>: </label>
+                                        <textarea className="form-control" type="text" id="description" name="description" value={description} input={description} onInput={(e) => {
                                             setDescription(e.target.value)
-                                        }} />
+                                        }} rows={5}/>
                                     </div> : <p><b>Description</b>: {course.description}</p>
                                 }
                                 {isEditing && courseToEdit.id === course.id ?
                                     <div className="align-left pad-start">
-                                        <label htmlFor="numberOfCredits">Credits: </label>
-                                        <input type="text" id="numberOfCredits" name="numberOfCredits" value={numberOfCredits} input={numberOfCredits} onInput={(e) => {
+                                        <label htmlFor="numberOfCredits"><b>Credits</b>: </label>
+                                        <input className="form-control" type="text" id="numberOfCredits" name="numberOfCredits" value={numberOfCredits} input={numberOfCredits} onInput={(e) => {
                                             setNumberOfCredits(e.target.value)
                                         }} />
                                     </div> : <p><b>Number of Credits</b>: {course.numberOfCredits}</p>
                                 }
                             </div>
                             <div className="align-row">
-                                {(isEditing ?
+                                {(isEditing && courseToEdit.id === course.id  ?
                                     <button onClick={() => {
                                         courses.forEach((course) => {
                                             if (course.id == courseToEdit.id)  {
@@ -142,7 +141,7 @@ export default function CoursesPage(props) {
                                         setCourse(courses) 
                                         setIsEditing(false)
                                         resetDefualts()
-                                    }} className="btn btn-primary pad-end"> Save </button> : <div></div>)
+                                    }} className="btn btn-success pad-end"> Save </button> : <div></div>)
                                 }
                                 <button onClick={() => {
                                     setIsEditing(!isEditing)
