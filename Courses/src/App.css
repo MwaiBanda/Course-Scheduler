@@ -1,0 +1,50 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.course {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: left;
+  align-self: start;
+}
+
+.nobull {
+  list-style-type: none;
+ }
+
+ .align-left {
+  text-align: start;
+ }
+
+ .pad-start {
+  padding-left: 5em;
+ }
+
+ .pad-end {
+  margin-right: 0.5em;
+ }
+ .align-column {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    padding-left: 5em;
+ }
+
+ .align-row {
+  display: flex;
+ }
+
+ .btn {
+  max-height: 50px;
+ }
+
+
+ 
