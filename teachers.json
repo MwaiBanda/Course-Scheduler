@@ -1,0 +1,23 @@
+[
+    {
+        "teacherName": "Bruce Wayne",
+        "school": "Information Technology",
+        "department": "Software Development",
+        "description": "Bruce Wayne is an experienced programmer"
+    },
+
+    {
+        "teacherName": "Ahab Danvers",
+        "school": "Mathematics",
+        "department": "Math",
+        "description": "Caitlyn Babs is an experienced painter and sculptor"
+    },
+
+    {
+        "teacherName": "Caitlyn Babs",
+        "school": "Psychology",
+        "department": "Psych",
+        "description": "Caitlyn Babs is an experienced retired psychologist"
+    }
+
+]
