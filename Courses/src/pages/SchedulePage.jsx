@@ -1,4 +1,4 @@
-import TopNavBar from './components/Navbar';
+import TopNavBar from 'components/Navbar';
 
 export default function SchedulePage() {
     return <>
