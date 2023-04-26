@@ -1,3 +1,8 @@
+import TopNavBar from './components/Navbar';
+
 export default function SchedulePage() {
-    return <h2>Schedule</h2>
+    return <>
+        <TopNavBar />
+        <h2>Schedule</h2>
+    </>
 }

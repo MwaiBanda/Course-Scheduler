@@ -1,7 +1,10 @@
+import TopNavBar from './components/Navbar';
+
 export default function TeachersPage() {
     return (
         <>
-            <h1>Teachers</h1>
+           <TopNavBar />
+           <h1>Teachers</h1>
         </>
     )
 }
