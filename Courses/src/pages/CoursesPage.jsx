@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import TopNavBar from './components/Navbar';
+import TopNavBar from 'components/Navbar';
 
 export default function CoursesPage(props) {
     const [isEditing, setIsEditing] = useState(false);
