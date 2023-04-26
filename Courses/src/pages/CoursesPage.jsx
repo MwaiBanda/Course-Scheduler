@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import TopNavBar from './components/Navbar';
 
 export default function CoursesPage(props) {
     const [isEditing, setIsEditing] = useState(false);
@@ -44,6 +45,7 @@ export default function CoursesPage(props) {
     }
     return (
         <>
+            <TopNavBar />
             <ul>
                 {!isEditing ?
                     <div className="course pad-bottom">
