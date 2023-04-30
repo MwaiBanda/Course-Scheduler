@@ -18,6 +18,9 @@ export default function TopNavBar() {
                     >
                         <Nav.Link href="/">Courses</Nav.Link>
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
+                        <Nav.Link href="/cart">Cart</Nav.Link>
+                        <Nav.Link href="/schedule">Schedule</Nav.Link>
+                        <Nav.Link href="/login">Login</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control
