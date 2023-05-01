@@ -9,33 +9,47 @@ export default function CoursesPage(props) {
     const [subjectArea, setSubjectArea] = useState('');
     const [description, setDescription] = useState('');
     const [numberOfCredits, setNumberOfCredits] = useState('');
+    const getRandomId = () => {
+      return  Math.floor(Math.random() * 10) * Math.floor(Math.random() * 1000) *  Math.floor(Math.random() * 100) *  Math.floor(Math.random() * 999)
+    }
     const [courses, setCourse] = useState([
         {
-            "id": 0,
+            "id": getRandomId(),
             "courseName": "Introduction to Computer Science",
             "subjectArea": "Computer Science",
             "description": "An introduction to the basic concepts of computer programming and computer science.",
             "numberOfCredits": 3
         },
         {
-            "id": 1,
+            "id": getRandomId(),
             "courseName": "Calculus I",
             "subjectArea": "Mathematics",
             "description": "A first course in calculus including limits, continuity, derivatives, and integrals.",
             "numberOfCredits": 4
         },
         {
-            "id": 2,
+            "id": getRandomId(),
             "courseName": "Introduction to Psychology",
             "subjectArea": "Psychology",
             "description": "An introduction to the scientific study of behavior and mental processes.",
             "numberOfCredits": 3
         }
     ]);
+
     useEffect(() => {
-        setCourse(courses.filter((course) => course.id !== courseToDelete.id));
-    }, [courseToDelete]
-    );
+        const updatedCourses = courses.filter((course) => course.id !== courseToDelete.id)
+        setCourse(updatedCourses);
+        window.localStorage.setItem('courses', JSON.stringify(updatedCourses))
+    }, [courseToDelete]);
+
+    useEffect(() => {
+        const storedCourses =  localStorage.getItem("courses")
+        if (storedCourses != null) {
+            setCourse(JSON.parse(storedCourses))
+        } else {
+            window.localStorage.setItem('courses', JSON.stringify(courses))
+        }
+    }, [])
     const resetDefualts = () => {
         setCourseToEdit({})
         setCourseName("")
@@ -75,13 +89,15 @@ export default function CoursesPage(props) {
                             }} />
                         </div>
                         <button className="delete btn btn-secondary" onClick={() => {
-                            setCourse((courses) => [...courses, {
-                                "id": courses[courses.length - 1].id + 1,
+                            const upadateCourses = [...courses, {
+                                "id":  getRandomId(),
                                 "courseName": courseName,
                                 "subjectArea": subjectArea,
                                 "description": description,
                                 "numberOfCredits": numberOfCredits
-                            }])
+                            }]
+                            window.localStorage.setItem('courses', JSON.stringify(upadateCourses))
+                            setCourse(upadateCourses)
                         }}>
                             <b>Submit</b>
                         </button>
