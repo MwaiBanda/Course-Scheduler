@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import CartWidget from './CartWidget';
 
 export default function TopNavBar() {
     return (
@@ -31,6 +32,7 @@ export default function TopNavBar() {
                         />
                         <Button variant="outline-success">Search</Button>
                     </Form>
+                    <CartWidget />
                 </Navbar.Collapse>
             </Container>
         </Navbar>
