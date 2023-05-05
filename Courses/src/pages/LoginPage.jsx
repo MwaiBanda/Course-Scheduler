@@ -36,7 +36,7 @@ export default function LoginPage() {
     //Once Login Is Confirmed Send User To Courses Pages
     useEffect(() => {
         if (isSubmitted){
-            window.location.replace("/courses")
+            window.location.href = "/courses";
         }
     },[isSubmitted])
 
