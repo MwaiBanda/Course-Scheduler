@@ -1,9 +1,10 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 
-export default function LoginPage() {
+export default function LoginPage({ onRedirect}) {
     const [errorMessages,setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
-    
+    const [currentUser, setCurrentUser] = useState({});
+
     // Generate JSX code for error message
     const renderErrorMessage = (name) =>
     name === errorMessages.name && (
@@ -35,8 +36,9 @@ export default function LoginPage() {
 
     //Once Login Is Confirmed Send User To Courses Pages
     useEffect(() => {
-        if (isSubmitted){
-            window.location.href = "/courses";
+        if(isSubmitted === true){
+            window.location.replace("/courses")
+            onRedirect()
         }
     },[isSubmitted])
 
@@ -71,14 +73,15 @@ export default function LoginPage() {
         event.preventDefault();
 
         var {username, password} = document.forms[0];
-
+        try {
+       
         //Check if the username matches a username in the database
-        const userData = userList.find((user) => user.username === username.value )
+        setCurrentUser(userList.find((user) => user.username === username.value ))
 
         //If it does then continue to check the password
-        if (userData){
+        if (currentUser){
             //if password is correct submit
-            if(userData.password === password.value) {
+            if(currentUser.password === password.value) {
                 setIsSubmitted(true);
             //Otherwise set an error message
             }else{
@@ -88,6 +91,9 @@ export default function LoginPage() {
         }else{
             setErrorMessages({name: "username", message: errorList.password});
         }
+    } catch(e) {
+            
+    }
     };
 
     //Return Message To Show That User Is Logged In
@@ -95,7 +101,7 @@ export default function LoginPage() {
         <div className = "login">
             <div className="login-form">
                 <div className="title"> Sign In</div>
-                {isSubmitted ? <div> User is successfully logged in </div> : renderForm()}
+                {isSubmitted ? <div> User is successfully logged in </div> : <>{renderForm()}</>}
             </div>
         </div>
     </>
