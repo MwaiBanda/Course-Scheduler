@@ -1,3 +1,5 @@
+import {useState} from "react"
+
 export default function LoginPage() {
     const [errorMessages,setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -9,7 +11,8 @@ export default function LoginPage() {
     );
 
     // Create Form To Accept Input
-    const renderForm = (
+    const renderForm = () => (
+        <>
         <div className="form">
         <form onSubmit = {handleSubmit}>
             <div className="input-container">
@@ -22,11 +25,12 @@ export default function LoginPage() {
             <input type="password" name="password" required />
             {renderErrorMessage("password")}
             </div>
-            <div className="button-container">
-            <input type="submit" />
-            </div>
+            <button onclick = {handleSubmit}>
+                Submit 
+            </button>
         </form>
         </div>
+        </>
     );
 
     //Test User Login Info (Will Be Moved To External Source Later)
@@ -80,9 +84,12 @@ export default function LoginPage() {
     };
 
     return <>
-        <div className="login-form">
-            <div className="title"> Sign In</div>
-            {isSubmitted ? <div> User is successfully logged in </div> : renderForm}
+        <div className = "login">
+            <div className="login-form">
+                <div className="title"> Sign In</div>
+                {isSubmitted ? <div> User is successfully logged in </div> : renderForm()}
+            </div>
         </div>
     </>
 }
+

@@ -13,9 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<URL404 />}></Route>
-          <Route path="/" element={<CoursesPage />}></Route>
+          <Route path="/courses" element={<CoursesPage />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
-          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/" element={<LoginPage />}></Route>
           <Route path="/schedule" element={<SchedulePage />}></Route>
           <Route path="/teachers" element={<TeachersPage />}></Route>
         </Routes>
