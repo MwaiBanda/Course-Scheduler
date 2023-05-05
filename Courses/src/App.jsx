@@ -15,7 +15,9 @@ function App() {
           <Route path="*" element={<URL404 />}></Route>
           <Route path="/courses" element={<CoursesPage />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
-          <Route path="/" element={<LoginPage />}></Route>
+          <Route path="/" element={<LoginPage onRedirect={() => {
+            console.log("dhdhf")
+          }}/>}></Route>
           <Route path="/schedule" element={<SchedulePage />}></Route>
           <Route path="/teachers" element={<TeachersPage />}></Route>
         </Routes>

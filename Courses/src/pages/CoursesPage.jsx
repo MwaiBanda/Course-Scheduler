@@ -10,7 +10,7 @@ export default function CoursesPage(props) {
     const [description, setDescription] = useState('');
     const [numberOfCredits, setNumberOfCredits] = useState('');
     const getRandomId = () => {
-      return  Math.floor(Math.random() * 10) * Math.floor(Math.random() * 1000) *  Math.floor(Math.random() * 100) *  Math.floor(Math.random() * 999)
+        return Math.floor(Math.random() * 10) * Math.floor(Math.random() * 1000) * Math.floor(Math.random() * 100) * Math.floor(Math.random() * 999)
     }
     const [courses, setCourse] = useState([
         {
@@ -36,20 +36,68 @@ export default function CoursesPage(props) {
         }
     ]);
 
+    async function postCourses(data) {
+        try{
+        await fetch("https://groupbackend.onrender.com/courses",
+            {
+                method: "POST",
+                mode: "cors", // no-cors, *cors, same-origin
+                referrerPolicy: "no-referrer",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }
+        )
+    } catch (e) {
+        console.log(e);
+    }
+    }
+
+
+
     useEffect(() => {
         const updatedCourses = courses.filter((course) => course.id !== courseToDelete.id)
         setCourse(updatedCourses);
-        window.localStorage.setItem('courses', JSON.stringify(updatedCourses))
+        try {
+            postCourses(courses)
+        } catch (e) {
+            console.log(e);
+        }
     }, [courseToDelete]);
 
     useEffect(() => {
-        const storedCourses =  localStorage.getItem("courses")
-        if (storedCourses != null) {
-            setCourse(JSON.parse(storedCourses))
-        } else {
-            window.localStorage.setItem('courses', JSON.stringify(courses))
+        async function fetchData() {
+            try {
+                const res = await fetch("https://groupbackend.onrender.com/courses", {
+                    method: "GET",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                })
+
+                const remoteCourses = await res.json();
+                console.log(JSON.stringify(remoteCourses))
+                if (remoteCourses.length > 0) {
+                    setCourse(JSON.parse(remoteCourses))
+                } else {
+                    try {
+                        postCourses(courses)
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        try {
+            fetchData()
+        } catch (e) {
+            console.log(e);
         }
     }, [])
+
     const resetDefualts = () => {
         setCourseToEdit({})
         setCourseName("")
@@ -90,7 +138,7 @@ export default function CoursesPage(props) {
                         </div>
                         <button className="delete btn btn-secondary" onClick={() => {
                             const upadateCourses = [...courses, {
-                                "id":  getRandomId(),
+                                "id": getRandomId(),
                                 "courseName": courseName,
                                 "subjectArea": subjectArea,
                                 "description": description,
@@ -110,7 +158,7 @@ export default function CoursesPage(props) {
                         <div className="align-column">
 
 
-                            <div className={isEditing && courseToEdit.id === course.id  ? "align-left" : "left-text"} >
+                            <div className={isEditing && courseToEdit.id === course.id ? "align-left" : "left-text"} >
                                 {isEditing && courseToEdit.id === course.id ?
                                     <div className="align-left pad-start">
                                         <label htmlFor="courseName"><b>Course</b>: </label>
@@ -122,7 +170,7 @@ export default function CoursesPage(props) {
                                 {isEditing && courseToEdit.id === course.id ?
                                     <div className="align-left pad-start">
                                         <label htmlFor="subjectArea"><b>Subject</b>: </label>
-                                        <input className="form-control" type="text" id="subjectArea" name="subjectArea"  value={subjectArea} input={subjectArea} onInput={(e) => {
+                                        <input className="form-control" type="text" id="subjectArea" name="subjectArea" value={subjectArea} input={subjectArea} onInput={(e) => {
                                             setSubjectArea(e.target.value)
                                         }} />
                                     </div> : <p><b>Subject Area</b>: {course.subjectArea}</p>
@@ -133,7 +181,7 @@ export default function CoursesPage(props) {
                                         <label htmlFor="description"><b>Description</b>: </label>
                                         <textarea className="form-control" type="text" id="description" name="description" value={description} input={description} onInput={(e) => {
                                             setDescription(e.target.value)
-                                        }} rows={5}/>
+                                        }} rows={5} />
                                     </div> : <p><b>Description</b>: {course.description}</p>
                                 }
                                 {isEditing && courseToEdit.id === course.id ?
@@ -146,17 +194,17 @@ export default function CoursesPage(props) {
                                 }
                             </div>
                             <div className="align-row">
-                                {(isEditing && courseToEdit.id === course.id  ?
+                                {(isEditing && courseToEdit.id === course.id ?
                                     <button onClick={() => {
                                         courses.forEach((course) => {
-                                            if (course.id == courseToEdit.id)  {
+                                            if (course.id == courseToEdit.id) {
                                                 course.courseName = courseName
                                                 course.subjectArea = subjectArea
                                                 course.numberOfCredits = numberOfCredits
                                                 course.description = description
                                             }
                                         })
-                                        setCourse(courses) 
+                                        setCourse(courses)
                                         setIsEditing(false)
                                         resetDefualts()
                                     }} className="btn btn-success pad-end"> Save </button> : <div></div>)
