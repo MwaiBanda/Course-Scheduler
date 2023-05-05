@@ -11,8 +11,8 @@ export default function LoginPage() {
     );
 
     // Create Form To Accept Input
-    const renderForm = () => (
-        <>
+    const renderForm = () => {
+        return <>
         <div className="form">
         <form onSubmit = {handleSubmit}>
             <div className="input-container">
@@ -31,7 +31,7 @@ export default function LoginPage() {
         </form>
         </div>
         </>
-    );
+    };
 
     //Test User Login Info (Will Be Moved To External Source Later)
     //account type determines user level of authority
