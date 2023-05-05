@@ -33,6 +33,13 @@ export default function LoginPage() {
         </>
     };
 
+    //Once Login Is Confirmed Send User To Courses Pages
+    useEffect(() => {
+        if (isSubmitted){
+            window.location.replace("/courses")
+        }
+    },[isSubmitted])
+
     //Test User Login Info (Will Be Moved To External Source Later)
     //account type determines user level of authority
     const userList = [
@@ -83,6 +90,7 @@ export default function LoginPage() {
         }
     };
 
+    //Return Message To Show That User Is Logged In
     return <>
         <div className = "login">
             <div className="login-form">
