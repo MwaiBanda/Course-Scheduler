@@ -1,46 +1,68 @@
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 
-export default function LoginPage({ onRedirect}) {
-    const [errorMessages,setErrorMessages] = useState({});
+export default function LoginPage({ onRedirect }) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
 
     // Generate JSX code for error message
     const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-    <div className="error">{errorMessages.message}</div>
-    );
+        name === errorMessages.name && (
+            <div className="error">{errorMessages.message}</div>
+        );
 
     // Create Form To Accept Input
     const renderForm = () => {
         return <>
-        <div className="form">
-        <form onSubmit = {handleSubmit}>
-            <div className="input-container">
-            <label>Username </label>
-            <input type="text" name="username" required />
-            {renderErrorMessage("username")}
+            <div className="card">
+                <div className="card-body">
+                <h5 class="card-title">Grand Course Scheduler</h5>
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-container">
+                            <label>Username </label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="username"
+                                value={username}
+                                onChange={e => { setUsername(e.target.value) }}
+                                required
+                            />
+                            {isSubmitted ? renderErrorMessage(username) : <></>}
+                        </div>
+                        <div className="input-container">
+                            <label>Password </label>
+                            <input
+                                className="form-control "
+                                type="password"
+                                name="password"
+                                required
+                                value={password}
+                                onChange={e => { setPassword(e.target.value) }}
+                            />
+                            {isSubmitted ? renderErrorMessage(password) : <></>}
+                        </div>
+                        <button className="pad-top" onClick={(e) => handleSubmit(e)}>
+                            Submit
+                        </button>
+                    </form>
+                </div>
+
+
             </div>
-            <div className="input-container">
-            <label>Password </label>
-            <input type="password" name="password" required />
-            {renderErrorMessage("password")}
-            </div>
-            <button onclick = {handleSubmit}>
-                Submit 
-            </button>
-        </form>
-        </div>
         </>
     };
 
     //Once Login Is Confirmed Send User To Courses Pages
     useEffect(() => {
-        if(isSubmitted === true){
+        if (isSubmitted === true) {
+            onRedirect(currentUser)
+            console.log("Redirecting...")
             window.location.replace("/courses")
-            onRedirect()
         }
-    },[isSubmitted])
+    }, [isSubmitted])
 
     //Test User Login Info (Will Be Moved To External Source Later)
     //account type determines user level of authority
@@ -70,37 +92,35 @@ export default function LoginPage({ onRedirect}) {
     //On submit function
     const handleSubmit = (event) => {
         //Avoid Default Submit (occurs on reloading of the page)
-        event.preventDefault();
+        // event.preventDefault();
 
-        var {username, password} = document.forms[0];
         try {
-       
-        //Check if the username matches a username in the database
-        setCurrentUser(userList.find((user) => user.username === username.value ))
 
-        //If it does then continue to check the password
-        if (currentUser){
-            //if password is correct submit
-            if(currentUser.password === password.value) {
-                setIsSubmitted(true);
-            //Otherwise set an error message
-            }else{
-                setErrorMessages({name: "password" , message: errorList.password});
+            //Check if the username matches a username in the database
+            setCurrentUser(userList.find((user) => user.username === username))
+
+            //If it does then continue to check the password
+            if (currentUser) {
+                //if password is correct submit
+                if (currentUser.password === password) {
+                    setIsSubmitted(true);
+                    //Otherwise set an error message
+                } else {
+                    setErrorMessages({ name: "password", message: errorList.password });
+                }
+                //If username does not match a username in the database, 
+            } else {
+                setErrorMessages({ name: "username", message: errorList.password });
             }
-        //If username does not match a username in the database, 
-        }else{
-            setErrorMessages({name: "username", message: errorList.password});
+        } catch (e) {
+
         }
-    } catch(e) {
-            
-    }
     };
 
     //Return Message To Show That User Is Logged In
     return <>
-        <div className = "login">
-            <div className="login-form">
-                <div className="title"> Sign In</div>
+        <div className="login">
+            <div className="login-form">                
                 {isSubmitted ? <div> User is successfully logged in </div> : <>{renderForm()}</>}
             </div>
         </div>
