@@ -10,7 +10,12 @@ export default function TopNavBar() {
     const [user, serUser] = useState({});
 
     useEffect(() => {
-        serUser(JSON.parse(window.sessionStorage.getItem("currentUser")))
+        const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
+        if(user) {
+            serUser(user)
+        } else {
+            window.location.replace("/")
+        }
     }, [])
     return (
         <Navbar sticky="top" bg="light" expand="lg" className='pad-bottom '>

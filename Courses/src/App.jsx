@@ -15,12 +15,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<URL404 />}></Route>
-          <Route path="/courses" element={<CoursesPage user={currentUser}/>}></Route>
+          <Route path="/courses" element={<CoursesPage isEnrolling={true}/>}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
           <Route path="/" element={<LoginPage onRedirect={(user) => {
             setCurrentUser(user)
           }}/>}></Route>
-          <Route path="/schedule" element={<SchedulePage />}></Route>
+          <Route path="/schedule" element={<CoursesPage isEnrolling={false} key={3}/>}></Route>
           <Route path="/teachers" element={<TeachersPage />}></Route>
         </Routes>
       </BrowserRouter>
