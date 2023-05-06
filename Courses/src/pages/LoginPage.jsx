@@ -129,6 +129,7 @@ export default function LoginPage({ onRedirect }) {
                 //if password is correct submit
                 if (currentUser.password === password) {
                     setIsSubmitted(true);
+                    window.sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
                     onRedirect(currentUser)
                     //Otherwise set an error message
                 } else {

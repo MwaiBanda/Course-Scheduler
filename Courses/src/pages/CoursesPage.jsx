@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import TopNavBar from '@/components/Navbar';
 
-export default function CoursesPage({ user }) {
+export default function CoursesPage() {
+    const [user, serUser] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [courseToEdit, setCourseToEdit] = useState({});
     const [courseToDelete, setCourseToDelete] = useState({});
@@ -67,6 +68,7 @@ export default function CoursesPage({ user }) {
         } catch (e) {
             console.log(e);
         }
+        serUser(JSON.parse(window.sessionStorage.getItem("currentUser")))
     }, [])
 
     const resetDefualts = () => {
@@ -80,7 +82,7 @@ export default function CoursesPage({ user }) {
         <>
             <TopNavBar />
             <ul>
-                {!isEditing ?
+                {!isEditing  && user.account === 'teacher'?
                     <div className="course pad-bottom">
                         <div className="align-left pad-start">
                             <label htmlFor="courseName"><b>Course</b>: </label>
@@ -168,7 +170,9 @@ export default function CoursesPage({ user }) {
                                     </div> : <p><b>Number of Credits</b>: {course.numberOfCredits}</p>
                                 }
                             </div>
-                            <div className="align-row">
+                            {user.account === 'student' ? <div className="align-row"> 
+                                <button className="btn btn-dark">Enroll</button> 
+                            </div> : <div className="align-row">
                                 {(isEditing && courseToEdit.id === course.id ?
                                     <button onClick={() => {
                                         courses.forEach((course) => {
@@ -203,7 +207,8 @@ export default function CoursesPage({ user }) {
                                     }
                                 }} className="btn btn-primary pad-end"> Edit </button>
                                 <button onClick={() => setCourseToDelete(course)} className="btn btn-danger"> Delete </button>
-                            </div>
+                            </div>}
+                            
                         </div>
                     </li>
                 })}
