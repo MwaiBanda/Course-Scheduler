@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
 import CoursesPage from './pages/CoursesPage'
-import TeachersPage from './pages/TeachersPage';
-import SchedulePage from './pages/SchedulePage';
-import CartPage from './pages/CartPage';
+import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import URL404 from './pages/404Page';
 import { useState } from 'react';
@@ -16,12 +14,13 @@ function App() {
         <Routes>
           <Route path="*" element={<URL404 />}></Route>
           <Route path="/courses" element={<CoursesPage isEnrolling={true}/>}></Route>
-          <Route path="/cart" element={<CartPage />}></Route>
           <Route path="/" element={<LoginPage onRedirect={(user) => {
             setCurrentUser(user)
           }}/>}></Route>
-          <Route path="/schedule" element={<CoursesPage isEnrolling={false} key={3}/>}></Route>
-          <Route path="/teachers" element={<TeachersPage />}></Route>
+          <Route path="/schedule" element={<CoursesPage isEnrolling={false}/>}></Route>
+          <Route path="/teachers" element={<UserPage isDisplayingFaculty={true}/>}></Route>
+          <Route path="/students" element={<UserPage isDisplayingFaculty={false} />}></Route>
+
         </Routes>
       </BrowserRouter>
     </>
