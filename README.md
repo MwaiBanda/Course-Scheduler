@@ -17,3 +17,22 @@ cd Courses
 npm install
 npm run dev
 ```
+
+## Credentials
+Login with these test credentials 
+### Student
+```js
+{
+   username: "jsmith69",
+   password: "12345",
+   account: "student"
+}
+```
+### Teacher
+```js
+{
+    username: "bdole88",
+    password: "f4nny",
+    account: "teacher"
+}
+```
