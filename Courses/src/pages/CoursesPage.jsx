@@ -12,57 +12,35 @@ export default function CoursesPage({ user }) {
     const getRandomId = () => {
         return Math.floor(Math.random() * 10) * Math.floor(Math.random() * 1000) * Math.floor(Math.random() * 100) * Math.floor(Math.random() * 999)
     }
-    const [courses, setCourse] = useState([
-        {
-            "id": getRandomId(),
-            "courseName": "Introduction to Computer Science",
-            "subjectArea": "Computer Science",
-            "description": "An introduction to the basic concepts of computer programming and computer science.",
-            "numberOfCredits": 3
-        },
-        {
-            "id": getRandomId(),
-            "courseName": "Calculus I",
-            "subjectArea": "Mathematics",
-            "description": "A first course in calculus including limits, continuity, derivatives, and integrals.",
-            "numberOfCredits": 4
-        },
-        {
-            "id": getRandomId(),
-            "courseName": "Introduction to Psychology",
-            "subjectArea": "Psychology",
-            "description": "An introduction to the scientific study of behavior and mental processes.",
-            "numberOfCredits": 3
-        }
-    ]);
+    const [courses, setCourse] = useState([]);
 
     async function postCourses(data) {
-        try{
-        await fetch("https://groupbackend.onrender.com/courses",
-            {
-                method: "POST",
-                mode: "cors", // no-cors, *cors, same-origin
-                referrerPolicy: "no-referrer",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            }
-        )
-    } catch (e) {
-        console.log(e);
+        try {
+            await fetch("https://groupbackend.onrender.com/courses",
+                {
+                    method: "POST",
+                    mode: "cors", // no-cors, *cors, same-origin
+                    referrerPolicy: "no-referrer",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            )
+        } catch (e) {
+            console.log(e);
+        }
     }
-    }
-
-
 
     useEffect(() => {
         const updatedCourses = courses.filter((course) => course.id !== courseToDelete.id)
         setCourse(updatedCourses);
-        try {
-            postCourses(courses)
-        } catch (e) {
-            console.log(e);
+        if (updatedCourses.length > 0) {
+            try {
+                postCourses(updatedCourses)
+            } catch (e) {
+                console.log(e);
+            }
         }
     }, [courseToDelete]);
 
@@ -77,16 +55,9 @@ export default function CoursesPage({ user }) {
 
                 const remoteCourses = await res.json();
                 console.log(remoteCourses)
-                if (Object.keys(remoteCourses).length > 0) {
+                if (remoteCourses.length > 0) {
                     setCourse(JSON.parse(JSON.stringify(remoteCourses)))
-                } else {
-                    try {
-                        postCourses(courses)
-                    } catch (e) {
-                        console.log(e);
-                    }
                 }
-
             } catch (e) {
                 console.log(e);
             }
@@ -108,7 +79,6 @@ export default function CoursesPage({ user }) {
     return (
         <>
             <TopNavBar />
-            <h1>Hello, {user.username}</h1>
             <ul>
                 {!isEditing ?
                     <div className="course pad-bottom">
@@ -138,15 +108,19 @@ export default function CoursesPage({ user }) {
                             }} />
                         </div>
                         <button className="delete btn btn-secondary" onClick={() => {
-                            const upadateCourses = [...courses, {
+                            const updatedCourses = [...courses, {
                                 "id": getRandomId(),
                                 "courseName": courseName,
                                 "subjectArea": subjectArea,
                                 "description": description,
                                 "numberOfCredits": numberOfCredits
                             }]
-                            window.localStorage.setItem('courses', JSON.stringify(upadateCourses))
-                            setCourse(upadateCourses)
+                            setCourse(updatedCourses)
+                            try {
+                                postCourses(updatedCourses)
+                            } catch (e) {
+                                console.log(e);
+                            }
                         }}>
                             <b>Submit</b>
                         </button>
@@ -206,6 +180,13 @@ export default function CoursesPage({ user }) {
                                             }
                                         })
                                         setCourse(courses)
+                                        if (courses.length > 0) {
+                                            try {
+                                                postCourses(courses)
+                                            } catch (e) {
+                                                console.log(e);
+                                            }
+                                        }
                                         setIsEditing(false)
                                         resetDefualts()
                                     }} className="btn btn-success pad-end"> Save </button> : <div></div>)
