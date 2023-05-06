@@ -6,7 +6,7 @@ export default function LoginPage({ onRedirect }) {
     const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
-
+    const [users, setUsers] = useState([])
     // Generate JSX code for error message
     const renderErrorMessage = (name) =>
         name === errorMessages.name && (
@@ -29,7 +29,7 @@ export default function LoginPage({ onRedirect }) {
                                 value={username}
                                 onChange={e => { 
                                     setUsername(e.target.value) 
-                                    setCurrentUser(userList.find((user) => user.username === e.target.value))
+                                    setCurrentUser(users.find((user) => user.username === e.target.value))
                                 }}
                                 required
                             />
@@ -59,6 +59,24 @@ export default function LoginPage({ onRedirect }) {
         </>
     };
 
+    // function to fetch users
+    async function fetchUsers() {
+        try {
+            const res = await fetch("https://groupbackend.onrender.com/users", {
+                method: "GET",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+            })
+
+            const remoteUsers = await res.json();
+            console.log(remoteUsers)
+            if (remoteUsers.length > 0) {
+                setUsers(JSON.parse(JSON.stringify(remoteUsers)))
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
     //Once Login Is Confirmed Send User To Courses Pages
     useEffect(() => {
         if (isSubmitted === true) {
@@ -68,25 +86,29 @@ export default function LoginPage({ onRedirect }) {
         }
     }, [isSubmitted])
 
+    useEffect(() => {
+      fetchUsers()
+    }, [])
+
     //Test User Login Info (Will Be Moved To External Source Later)
     //account type determines user level of authority
-    const userList = [
-        {
-            username: "jsmith69",
-            password: "12345",
-            account: "student"
-        },
-        {
-            username: "bdole88",
-            password: "f4nny",
-            account: "teacher"
-        },
-        {
-            username: "hli16",
-            password: "lewisM@S",
-            account: "teacher"
-        }
-    ];
+    // const userList = [
+    //     {
+    //         username: "jsmith69",
+    //         password: "12345",
+    //         account: "student"
+    //     },
+    //     {
+    //         username: "bdole88",
+    //         password: "f4nny",
+    //         account: "teacher"
+    //     },
+    //     {
+    //         username: "hli16",
+    //         password: "lewisM@S",
+    //         account: "teacher"
+    //     }
+    // ];
 
     const errorList = {
         username: "Error, invalid username",
