@@ -122,7 +122,7 @@ export default function LoginPage({ onRedirect }) {
     return <>
         <div className="login">
             <div className="login-form">                
-                {isSubmitted ? <div> User is successfully logged in </div> : <>{renderForm()}</>}
+                {renderForm()}
             </div>
         </div>
     </>
