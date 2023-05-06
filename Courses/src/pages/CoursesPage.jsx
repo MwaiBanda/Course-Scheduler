@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import TopNavBar from '@/components/Navbar';
 
-export default function CoursesPage(props) {
+export default function CoursesPage({ user }) {
     const [isEditing, setIsEditing] = useState(false);
     const [courseToEdit, setCourseToEdit] = useState({});
     const [courseToDelete, setCourseToDelete] = useState({});
@@ -76,9 +76,9 @@ export default function CoursesPage(props) {
                 })
 
                 const remoteCourses = await res.json();
-                console.log(JSON.stringify(remoteCourses))
-                if (remoteCourses.length > 0) {
-                    setCourse(JSON.parse(remoteCourses))
+                console.log(remoteCourses)
+                if (Object.keys(remoteCourses).length > 0) {
+                    setCourse(JSON.parse(JSON.stringify(remoteCourses)))
                 } else {
                     try {
                         postCourses(courses)
@@ -108,6 +108,7 @@ export default function CoursesPage(props) {
     return (
         <>
             <TopNavBar />
+            <h1>Hello, {user.username}</h1>
             <ul>
                 {!isEditing ?
                     <div className="course pad-bottom">

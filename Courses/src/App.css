@@ -39,7 +39,9 @@
  .pad-bottom {
   margin-top: 20px;
  }
- 
+ .pad-top {
+  margin-top: 20px;
+ }
  .align-column {
     display: flex;
     flex-direction: column;
@@ -60,6 +62,14 @@
   margin-top: 23px ;
  }
 
+.card {
+  width: 22rem;
+  text-align: start;
+}
 
-
- 
+ .login {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
