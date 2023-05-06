@@ -4,8 +4,14 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
+import { useState, useEffect } from 'react';
 
 export default function TopNavBar() {
+    const [user, serUser] = useState({});
+
+    useEffect(() => {
+        serUser(JSON.parse(window.sessionStorage.getItem("currentUser")))
+    }, [])
     return (
         <Navbar sticky="top" bg="light" expand="lg" className='pad-bottom '>
             <Container fluid>
@@ -19,9 +25,8 @@ export default function TopNavBar() {
                     >
                         <Nav.Link href="/">Courses</Nav.Link>
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
-                        <Nav.Link href="/cart">Cart</Nav.Link>
-                        <Nav.Link href="/schedule">Schedule</Nav.Link>
-                        <Nav.Link href="/login">Login</Nav.Link>
+                        {user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
+                        
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control
@@ -32,7 +37,7 @@ export default function TopNavBar() {
                         />
                         <Button variant="outline-success">Search</Button>
                     </Form>
-                    <CartWidget />
+                    {/* <CartWidget /> */}
                 </Navbar.Collapse>
             </Container>
         </Navbar>
