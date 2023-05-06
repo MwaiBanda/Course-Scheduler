@@ -23,7 +23,7 @@ export default function TopNavBar() {
                         style={{ maxHeight: '100px' }}
                         navbarScroll
                     >
-                        <Nav.Link href="/">Courses</Nav.Link>
+                        <Nav.Link href="/courses">Courses</Nav.Link>
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
                         {user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         
