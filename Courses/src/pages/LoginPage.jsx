@@ -27,7 +27,10 @@ export default function LoginPage({ onRedirect }) {
                                 type="text"
                                 name="username"
                                 value={username}
-                                onChange={e => { setUsername(e.target.value) }}
+                                onChange={e => { 
+                                    setUsername(e.target.value) 
+                                    setCurrentUser(userList.find((user) => user.username === e.target.value))
+                                }}
                                 required
                             />
                             {isSubmitted ? renderErrorMessage(username) : <></>}
@@ -44,9 +47,10 @@ export default function LoginPage({ onRedirect }) {
                             />
                             {isSubmitted ? renderErrorMessage(password) : <></>}
                         </div>
-                        <button className="pad-top" onClick={(e) => handleSubmit(e)}>
-                            Submit
+                        <button type="submit" className="btn btn-dark pad-top" onSubmit={(e) => handleSubmit(e)}>
+                            Login
                         </button>
+                    
                     </form>
                 </div>
 
@@ -92,12 +96,11 @@ export default function LoginPage({ onRedirect }) {
     //On submit function
     const handleSubmit = (event) => {
         //Avoid Default Submit (occurs on reloading of the page)
-        // event.preventDefault();
+        event.preventDefault();
 
         try {
 
             //Check if the username matches a username in the database
-            setCurrentUser(userList.find((user) => user.username === username))
 
             //If it does then continue to check the password
             if (currentUser) {
