@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import URL404 from './pages/404Page';
 import { useState } from 'react';
 function App() {
-  const [currentUser, setCurrentUser] = useState({username: ""});
+  const [currentUser, setCurrentUser] = useState({});
 
   return (
     <>

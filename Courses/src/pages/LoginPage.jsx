@@ -104,6 +104,7 @@ export default function LoginPage({ onRedirect }) {
                 //if password is correct submit
                 if (currentUser.password === password) {
                     setIsSubmitted(true);
+                    onRedirect(currentUser)
                     //Otherwise set an error message
                 } else {
                     setErrorMessages({ name: "password", message: errorList.password });
