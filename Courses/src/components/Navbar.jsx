@@ -5,11 +5,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function TopNavBar() {
     const [user, setUser] = useState(null);
     const history = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
@@ -41,7 +42,7 @@ export default function TopNavBar() {
                         <button className='nav-link' onClick={() => {
                             setUser(null)
                             window.location = "/"
-                            history.replace()
+                            history(location.pathname, {})
                             window.history.replaceState({}, document.title)
                             window.sessionStorage.setItem("currentUser",null);
                         }}> Logout </button>
