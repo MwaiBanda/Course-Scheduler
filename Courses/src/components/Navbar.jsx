@@ -41,7 +41,7 @@ export default function TopNavBar() {
                         <button className='btn btn-light' onClick={() => {
                             navigate("/", { replace: true })
                             window.sessionStorage.setItem("currentUser",null);
-                        }}>  </button>
+                        }}>Logout</button>
       
                     </Nav>
                     <Form className="d-flex">
