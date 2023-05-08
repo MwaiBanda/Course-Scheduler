@@ -13,7 +13,9 @@ export default function TopNavBar() {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
         if(user && user.username !== null) {
             setUser(user)
+            console.log("not NUll")
         } else {
+            console.log("is NUll")
             window.location.replace("/")
         }
     }, [])
