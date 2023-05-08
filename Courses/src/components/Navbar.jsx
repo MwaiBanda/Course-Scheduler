@@ -40,10 +40,10 @@ export default function TopNavBar() {
                         {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         <button className='nav-link' onClick={() => {
                             setUser(null)
+                            window.location = "/"
                             history.replace()
                             window.history.replaceState({}, document.title)
                             window.sessionStorage.setItem("currentUser",null);
-                            window.location = "/"
                         }}> Logout </button>
       
                     </Nav>
