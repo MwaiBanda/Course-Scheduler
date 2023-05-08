@@ -7,8 +7,10 @@ import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom'
 
-export default function TopNavBar() {
+export default function TopNavBar({ onSearch }) {
     const [user, setUser] = useState({});
+    const [searchTerm, setSearchTerm] = useState('');
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -47,8 +49,12 @@ export default function TopNavBar() {
                             placeholder="Search"
                             className="me-2"
                             aria-label="Search"
+                            value={searchTerm}
+                            onChange={e => {
+                                setSearchTerm(e.target.value)
+                                onSearch(e.target.value)
+                            }}
                         />
-                        <Button variant="outline-success">Search</Button>
                         <button className='btn btn-outline-dark mar-start' onClick={() => {
                             navigate("/", { replace: true })
                             window.sessionStorage.setItem("currentUser",null);
