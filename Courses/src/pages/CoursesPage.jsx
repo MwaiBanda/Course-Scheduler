@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import TopNavBar from '@/components/Navbar';
 
-export default function CoursesPage({ isEnrolling }) {
+export default function CoursesPage({ isDisplayingSchedule }) {
     const [user, serUser] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [courseToEdit, setCourseToEdit] = useState({});
@@ -36,7 +36,17 @@ export default function CoursesPage({ isEnrolling }) {
             console.log(e);
         }
     }
-    if (isEnrolling) {
+    if (isDisplayingSchedule) {
+        useEffect(() => {
+            const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
+            const schedules = JSON.parse(window.sessionStorage.getItem(current.username))
+            console.log(schedules)
+            if (schedules) {
+                setEnrolledCourses(schedules)
+            }
+
+        }, [])
+    } else {
         useEffect(() => {
             const updatedCourses = courses.filter((course) => course.id !== courseToDelete.id)
             setCourse(updatedCourses);
@@ -83,16 +93,6 @@ export default function CoursesPage({ isEnrolling }) {
                 setEnrolledCourses(stored)
             }
         }, [])
-    } else {
-        useEffect(() => {
-            const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
-            const schedules = JSON.parse(window.sessionStorage.getItem(current.username))
-            console.log(schedules)
-            if (schedules) {
-                setEnrolledCourses(schedules)
-            }
-
-        }, [])
     }
 
 
@@ -116,7 +116,7 @@ export default function CoursesPage({ isEnrolling }) {
                     }} />
                 </div> : <h1>{course.courseName}</h1>}
 
-            
+
             {!isEditing ? <p><b>Course ID</b>: {course.id}</p> : <></>}
             {isEditing && courseToEdit.id === course.id ?
                 <div className="align-left pad-start">
@@ -203,8 +203,23 @@ export default function CoursesPage({ isEnrolling }) {
             }} />
             {AddCourseBar()}
             <ul className='nobull'>
-                {isEnrolling ?
-                    courses.filter(c => {
+                {isDisplayingSchedule ? enrolledCourses.filter(c => {
+                        return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            `${c.id}`.includes(searchTerm) ||
+                            c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
+                    }).map((course) => {
+                        return <li className="course" key={course.id}>
+                            <div className="align-column">
+                                {CourseContent(course)}
+                                <button className="btn btn-dark" onClick={() => {
+                                    const updatedCourses = enrolledCourses.filter((enrolled) => enrolled.id !== course.id)
+                                    setEnrolledCourses(updatedCourses)
+                                    const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
+                                    window.sessionStorage.setItem(current.username, JSON.stringify(updatedCourses))
+                                }}>Unenroll</button>
+                            </div>
+                        </li>
+                    }) : courses.filter(c => {
                         return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             `${c.id}`.includes(searchTerm) ||
                             c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
@@ -265,25 +280,6 @@ export default function CoursesPage({ isEnrolling }) {
                                         }
                                     }} className="btn btn-danger"> Delete </button>
                                 </div>}
-
-                            </div>
-                        </li>
-                    })
-                    :
-                    enrolledCourses.filter(c => {
-                        return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            `${c.id}`.includes(searchTerm) ||
-                            c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
-                    }).map((course) => {
-                        return <li className="course" key={course.id}>
-                            <div className="align-column">
-                                {CourseContent(course)}
-                                <button className="btn btn-dark" onClick={() => {
-                                    const updatedCourses = enrolledCourses.filter((enrolled) => enrolled.id !== course.id)
-                                    setEnrolledCourses(updatedCourses)
-                                    const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
-                                    window.sessionStorage.setItem(current.username, JSON.stringify(updatedCourses))
-                                }}>Unenroll</button>
                             </div>
                         </li>
                     })

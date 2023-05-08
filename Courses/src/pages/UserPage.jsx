@@ -36,7 +36,10 @@ export default function UserPage({ isDisplayingFaculty }) {
             {isDisplayingFaculty ?
                 <ul>
                     {
-                        users.filter(user => user.account === 'teacher' && user.username.toLowerCase().includes(searchTerm.toLowerCase())).map(user => {
+                        users.filter(user => {
+                            return user.account === 'teacher' &&
+                            (user.username.toLowerCase().includes(searchTerm.toLowerCase()) || user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                        }).map(user => {
                             return <li className="course"  key={user.username}>
                                     <div className="align-left pad-start">
                                         <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Faculty" }</h5>
@@ -53,7 +56,10 @@ export default function UserPage({ isDisplayingFaculty }) {
                     }
                 </ul> : <ul>
                     {
-                        users.filter(user => user.account === 'student' && user.username.toLowerCase().includes(searchTerm.toLowerCase()) ).map(user => {
+                        users.filter(
+                            user => user.account === 'student' &&
+                            (user.username.toLowerCase().includes(searchTerm.toLowerCase()) || user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                        ).map(user => {
                             return  <li className="course" key={user.username}>
                             <div className="align-left pad-start">
                                 <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Student" }</h5>
