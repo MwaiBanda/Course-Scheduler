@@ -45,7 +45,7 @@ export default function UserPage({ isDisplayingFaculty }) {
                                         <h5><small className='text-muted'>Role</small>: Faculty</h5>
                                         <h5><small className='text-muted'>Department</small>: {user.department ? user.department : "Unset"}</h5>
                                         <h5><small className='text-muted'>School</small>: {user.school ? user.school : "Unset"}</h5>
-                                        <h5><small className='text-muted'>Description</small>: {user.school ? user.school : "Unset"}</h5>
+                                        <h5><small className='text-muted'>Description</small>: {user.description ? user.description : "Unset"}</h5>
                                         <h5><small className='text-muted'>Account Created</small>: {user.createdAt ? user.createdAt  : new Date("2023-05-1").toDateString() }</h5>
                                     </div>
                                 </li>
