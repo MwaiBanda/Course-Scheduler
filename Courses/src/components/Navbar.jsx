@@ -5,13 +5,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
-import {browserHistory} from 'react-router'
+import createHistory from 'history/createBrowserHistory'
 
 export default function TopNavBar() {
     const [user, setUser] = useState(null);
     const history = useNavigate();
     const location = useLocation();
-
+    const browserHistory = createHistory()
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
         if(user && user !== null) {
@@ -41,7 +41,7 @@ export default function TopNavBar() {
                         {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         <button className='nav-link' onClick={() => {
                             setUser(null)
-                            browserHistory().replace("/")
+                            browserHistory.replace("/")
                             window.sessionStorage.setItem("currentUser",null);
                         }}> Logout </button>
       
