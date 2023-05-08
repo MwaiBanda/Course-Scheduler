@@ -10,6 +10,8 @@ export default function CoursesPage({ isEnrolling }) {
     const [subjectArea, setSubjectArea] = useState('');
     const [description, setDescription] = useState('');
     const [numberOfCredits, setNumberOfCredits] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     const getRandomId = () => {
         return Math.floor(Math.random() * 10) * Math.floor(Math.random() * 1000) * Math.floor(Math.random() * 100) * Math.floor(Math.random() * 999)
@@ -191,11 +193,14 @@ export default function CoursesPage({ isEnrolling }) {
 
     return (
         <>
-            <TopNavBar />
+            <TopNavBar onSearch={(search) => {
+                console.log('Searching...' + search)
+                setSearchTerm(search)
+            }} />
             {AddCourseBar()}
             <ul className='nobull'>
                 {isEnrolling ?
-                    courses.map((course) => {
+                    courses.filter(c => { return c.courseName.includes(searchTerm) || courses.length < 0 }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
@@ -257,7 +262,7 @@ export default function CoursesPage({ isEnrolling }) {
                         </li>
                     })
                     :
-                    enrolledCourses.map((course) => {
+                    enrolledCourses.filter(c => { return c.courseName.includes(searchTerm) || courses.length < 0 }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
