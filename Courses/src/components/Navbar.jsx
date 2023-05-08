@@ -8,12 +8,12 @@ import { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom'
 
 export default function TopNavBar() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const navigate = useNavigate()
 
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
-        if(user && user !== null) {
+        if(user) {
             setUser(user)
             console.log("not NUll")
             console.log(typeof user)
@@ -36,13 +36,12 @@ export default function TopNavBar() {
                     >
                         <Nav.Link href="/courses">Courses</Nav.Link>
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
-                        {user && user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
-                        {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
-                        <button className='nav-link' onClick={() => {
-                            setUser(null)
+                        {user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
+                        {user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
+                        <button className='btn btn-light' onClick={() => {
                             navigate("/", { replace: true })
                             window.sessionStorage.setItem("currentUser",null);
-                        }}> Logout </button>
+                        }}>  </button>
       
                     </Nav>
                     <Form className="d-flex">
