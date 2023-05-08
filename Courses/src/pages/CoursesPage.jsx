@@ -85,6 +85,7 @@ export default function CoursesPage({ isEnrolling }) {
             if (schedules) {
                 setEnrolledCourses(schedules)
             }
+            
         }, [])
     }
 
