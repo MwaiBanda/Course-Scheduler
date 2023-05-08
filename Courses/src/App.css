@@ -32,6 +32,10 @@
   padding-left: 5em;
  }
 
+ .mar-start {
+  margin-left: .5em;
+ }
+
  .pad-end {
   margin-right: 0.65em;
  }
