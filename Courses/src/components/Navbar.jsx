@@ -36,7 +36,10 @@ export default function TopNavBar() {
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
                         {user && user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
                         {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
-                        <Nav.Link href="/">Logout</Nav.Link>
+                        <button className='nav-link' onClick={() => {
+                            window.location = "/"
+                            setUser(null)
+                        }}> Logout </button>
                         
                     </Nav>
                     <Form className="d-flex">
