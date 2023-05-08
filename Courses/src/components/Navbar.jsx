@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {browserHistory} from 'react-router'
 
 export default function TopNavBar() {
     const [user, setUser] = useState(null);
@@ -41,9 +41,7 @@ export default function TopNavBar() {
                         {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         <button className='nav-link' onClick={() => {
                             setUser(null)
-                            window.location = "/"
-                            history(location.pathname, {})
-                            window.history.replaceState({}, document.title)
+                            browserHistory().replace("/")
                             window.sessionStorage.setItem("currentUser",null);
                         }}> Logout </button>
       
