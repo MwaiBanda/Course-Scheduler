@@ -43,6 +43,9 @@ export default function UserPage({ isDisplayingFaculty }) {
                                         <h5><small className='text-muted'>Username</small>: {user.username}</h5>
                                         <h5><small className='text-muted'>Password</small>: {user.password}</h5>
                                         <h5><small className='text-muted'>Role</small>: Faculty</h5>
+                                        <h5><small className='text-muted'>Department</small>: Admin</h5>
+                                        <h5><small className='text-muted'>School</small>: Admin</h5>
+                                        <h5><small className='text-muted'>Description</small>: Admin</h5>
                                         <h5><small className='text-muted'>Account Created</small>: {user.createdAt ? user.createdAt  : new Date("2023-05-1").toDateString() }</h5>
                                     </div>
                                 </li>
