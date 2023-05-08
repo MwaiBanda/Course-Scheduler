@@ -121,7 +121,7 @@ export default function LoginPage({ onRedirect }) {
     const handleSubmit = (event) => {
         //Avoid Default Submit (occurs on reloading of the page)
         event.preventDefault();
-        setCurrentUser(users.find((user) => user.username === e.target.value))
+        setCurrentUser(users.find((user) => user.username === username))
 
         try {
 
