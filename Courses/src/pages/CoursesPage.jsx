@@ -167,7 +167,8 @@ export default function CoursesPage({ isEnrolling }) {
                             "courseName": courseName,
                             "subjectArea": subjectArea,
                             "description": description,
-                            "numberOfCredits": numberOfCredits
+                            "numberOfCredits": numberOfCredits,
+                            "user": user.username
                         }]
                         setCourse(updatedCourses)
                         try {
@@ -240,7 +241,11 @@ export default function CoursesPage({ isEnrolling }) {
                                             resetDefualts()
                                         }
                                     }} className="btn btn-primary pad-end"> Edit </button>
-                                    <button onClick={() => setCourseToDelete(course)} className="btn btn-danger"> Delete </button>
+                                    <button onClick={() => {
+                                        if (user.username === course.user) {
+                                            setCourseToDelete(course)
+                                        }
+                                    }} className="btn btn-danger"> Delete </button>
                                 </div>}
 
                             </div>
@@ -257,8 +262,6 @@ export default function CoursesPage({ isEnrolling }) {
                                     const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
                                     window.sessionStorage.setItem(current.username, JSON.stringify(updatedCourses))
                                 }}>Unenroll</button>
-
-
                             </div>
                         </li>
                     })
