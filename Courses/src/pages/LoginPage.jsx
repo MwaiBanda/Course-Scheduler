@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function LoginPage({ onRedirect }) {
+export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessages, setErrorMessages] = useState({});
@@ -19,7 +19,7 @@ export default function LoginPage({ onRedirect }) {
         return <>
             <div className="card">
                 <div className="card-body">
-                <h5 class="card-title">Grand Course Scheduler</h5>
+                <h5 className="card-title">Grand Course Scheduler</h5>
                     <form onSubmit={handleSubmit}>
                         <div className="input-container">
                             <label>Username </label>
@@ -81,7 +81,6 @@ export default function LoginPage({ onRedirect }) {
     //Once Login Is Confirmed Send User To Courses Pages
     useEffect(() => {
         if (isSubmitted === true) {
-            onRedirect(currentUser)
             console.log("Redirecting...")
             window.location.replace("/courses")
         }
@@ -133,7 +132,6 @@ export default function LoginPage({ onRedirect }) {
                 if (currentUser.password === password) {
                     setIsSubmitted(true);
                     window.sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
-                    onRedirect(currentUser)
                     //Otherwise set an error message
                 } else {
                     setErrorMessages({ name: "password", message: errorList.password });
