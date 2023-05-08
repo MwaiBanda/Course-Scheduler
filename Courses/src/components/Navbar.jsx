@@ -5,15 +5,20 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function TopNavBar() {
     const [user, setUser] = useState(null);
+    const history = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
         if(user && user !== null) {
             setUser(user)
             console.log("not NUll")
+            console.log(typeof user)
+            console.log(user)
         } else {
             console.log("is NUll")
             window.location.replace("/")
@@ -32,10 +37,16 @@ export default function TopNavBar() {
                     >
                         <Nav.Link href="/courses">Courses</Nav.Link>
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
-                        {user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
-                        {user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
-                        <Nav.Link href="/">Logout</Nav.Link>
-                        
+                        {user && user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
+                        {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
+                        <button className='nav-link' onClick={() => {
+                            setUser(null)
+                            window.location = "/"
+                            history(location.pathname, {})
+                            window.history.replaceState({}, document.title)
+                            window.sessionStorage.setItem("currentUser",null);
+                        }}> Logout </button>
+      
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control
