@@ -107,6 +107,7 @@ export default function CoursesPage({ isEnrolling }) {
 
     function CourseContent(course) {
         return <div className={isEditing && courseToEdit.id === course.id ? "align-left" : "left-text"}>
+            {isEditing ? <p className={courseToEdit.id === course.id ? "align-left pad-start" : ""}><b>Course ID</b>: {course.id}</p> : <></>}
             {isEditing && courseToEdit.id === course.id ?
                 <div className="align-left pad-start">
                     <label htmlFor="courseName"><b>Course</b>: </label>
@@ -114,7 +115,9 @@ export default function CoursesPage({ isEnrolling }) {
                         setCourseName(e.target.value);
                     }} />
                 </div> : <h1>{course.courseName}</h1>}
-            <p><b>Course ID</b>: {course.id}</p>
+
+            
+            {!isEditing ? <p><b>Course ID</b>: {course.id}</p> : <></>}
             {isEditing && courseToEdit.id === course.id ?
                 <div className="align-left pad-start">
                     <label htmlFor="subjectArea"><b>Subject</b>: </label>
