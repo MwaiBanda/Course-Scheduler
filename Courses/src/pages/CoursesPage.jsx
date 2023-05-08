@@ -76,6 +76,10 @@ export default function CoursesPage({ isEnrolling }) {
             } else {
                 window.location.replace("/")
             }
+            const stored = JSON.parse(window.sessionStorage.getItem(user.username))
+            if(stored) {
+                setEnrolledCourses(stored)
+            }
         }, [])
     } else{
         useEffect(() => {
@@ -207,7 +211,7 @@ export default function CoursesPage({ isEnrolling }) {
                                         }
                                         setEnrolledCourses(updated.filter((v,i,a)=>a.findIndex(v2=>(v2.id===v.id))===i))
                                         window.sessionStorage.setItem(user.username, JSON.stringify(updated.filter((v,i,a)=>a.findIndex(v2=>(v2.id===v.id))===i)))
-                                    }}>Enroll</button>
+                                    }}>{enrolledCourses.filter(enrolled => enrolled.id === course.id).length > 0 ? "Enrolled" : "Enroll"}</button>
                                 </div> : <div className="align-row">
                                     {(isEditing && courseToEdit.id === course.id ?
                                         <button onClick={() => {
