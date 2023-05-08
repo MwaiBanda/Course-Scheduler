@@ -32,8 +32,8 @@ export default function TopNavBar() {
                     >
                         <Nav.Link href="/courses">Courses</Nav.Link>
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
-                        {user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
-                        {user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
+                        {user && user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
+                        {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         <Nav.Link href="/">Logout</Nav.Link>
                         
                     </Nav>
