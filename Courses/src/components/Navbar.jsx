@@ -38,10 +38,7 @@ export default function TopNavBar() {
                         <Nav.Link href="/teachers">Teachers</Nav.Link>
                         {user.account === 'teacher' ? <Nav.Link href="/students">Students</Nav.Link> : <></>}
                         {user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
-                        <button className='btn btn-light' onClick={() => {
-                            navigate("/", { replace: true })
-                            window.sessionStorage.setItem("currentUser",null);
-                        }}>Logout</button>
+                        
       
                     </Nav>
                     <Form className="d-flex">
@@ -52,6 +49,10 @@ export default function TopNavBar() {
                             aria-label="Search"
                         />
                         <Button variant="outline-success">Search</Button>
+                        <button className='btn btn-outline-dark mar-start' onClick={() => {
+                            navigate("/", { replace: true })
+                            window.sessionStorage.setItem("currentUser",null);
+                        }}>Logout</button>
                     </Form>
                     {/* <CartWidget /> */}
                 </Navbar.Collapse>
