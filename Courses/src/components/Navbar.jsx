@@ -5,11 +5,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function TopNavBar() {
     const [user, setUser] = useState(null);
-    const history = useHistory();
+    const history = useNavigate();
 
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
