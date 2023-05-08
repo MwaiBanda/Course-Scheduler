@@ -41,7 +41,7 @@ export default function TopNavBar() {
                         {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         <button className='nav-link' onClick={() => {
                             setUser(null)
-                            browserHistory.replace("/")
+                            browserHistory().replace("/")
                             window.sessionStorage.setItem("currentUser",null);
                         }}> Logout </button>
       
