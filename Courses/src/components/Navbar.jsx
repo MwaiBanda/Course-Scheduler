@@ -5,10 +5,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom'
 
 export default function TopNavBar() {
     const [user, setUser] = useState(null);
-  
+    const navigate = useNavigate()
+
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
         if(user && user !== null) {
@@ -38,7 +40,7 @@ export default function TopNavBar() {
                         {user && user.account === 'student' ? <Nav.Link href="/schedule">Schedule</Nav.Link> : <></>}
                         <button className='nav-link' onClick={() => {
                             setUser(null)
-                            history.replace("/")
+                            navigate("/", { replace: true })
                             window.sessionStorage.setItem("currentUser",null);
                         }}> Logout </button>
       
