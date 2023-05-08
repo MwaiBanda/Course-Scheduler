@@ -18,6 +18,12 @@ npm install
 npm run dev
 ```
 
+### How to pull server codebase:
+```sh
+cd Server
+git submodule update --init --recursive
+```
+
 ## Credentials
 Login with these test credentials 
 ### Student
