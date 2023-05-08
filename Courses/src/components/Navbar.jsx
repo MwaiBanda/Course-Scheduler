@@ -26,7 +26,7 @@ export default function TopNavBar() {
     return (
         <Navbar sticky="top" bg="light" expand="lg" className='pad-bottom '>
             <Container fluid>
-                <Navbar.Brand href="/">Course Scheduler</Navbar.Brand>
+                <Navbar.Brand href="/courses">Course Scheduler</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
