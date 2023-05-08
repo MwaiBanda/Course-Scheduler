@@ -201,7 +201,7 @@ export default function CoursesPage({ isEnrolling }) {
             {AddCourseBar()}
             <ul className='nobull'>
                 {isEnrolling ?
-                    courses.filter(c => { return c.courseName.includes(searchTerm) || `${c.id}`.includes(searchTerm) }).map((course) => {
+                    courses.filter(c => { return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) || `${c.id}`.includes(searchTerm) }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
@@ -263,7 +263,7 @@ export default function CoursesPage({ isEnrolling }) {
                         </li>
                     })
                     :
-                    enrolledCourses.filter(c => { return c.courseName.includes(searchTerm) || `${c.id}`.includes(searchTerm)  }).map((course) => {
+                    enrolledCourses.filter(c => { return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) || `${c.id}`.includes(searchTerm)  }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
