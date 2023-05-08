@@ -79,11 +79,11 @@ export default function CoursesPage({ isEnrolling }) {
                 window.location.replace("/")
             }
             const stored = JSON.parse(window.sessionStorage.getItem(user.username))
-            if(stored) {
+            if (stored) {
                 setEnrolledCourses(stored)
             }
         }, [])
-    } else{
+    } else {
         useEffect(() => {
             const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
             const schedules = JSON.parse(window.sessionStorage.getItem(current.username))
@@ -91,7 +91,7 @@ export default function CoursesPage({ isEnrolling }) {
             if (schedules) {
                 setEnrolledCourses(schedules)
             }
-            
+
         }, [])
     }
 
@@ -201,7 +201,11 @@ export default function CoursesPage({ isEnrolling }) {
             {AddCourseBar()}
             <ul className='nobull'>
                 {isEnrolling ?
-                    courses.filter(c => { return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) || `${c.id}`.includes(searchTerm) }).map((course) => {
+                    courses.filter(c => {
+                        return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            `${c.id}`.includes(searchTerm) ||
+                            c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
+                    }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
@@ -210,13 +214,13 @@ export default function CoursesPage({ isEnrolling }) {
                                     <button className="btn btn-dark" onClick={() => {
                                         const stored = JSON.parse(window.sessionStorage.getItem(user.username))
                                         let updated = []
-                                        if(stored) {
-                                            updated = [...enrolledCourses, ...stored, course] 
-                                        }else {
-                                            updated = [...enrolledCourses, course] 
+                                        if (stored) {
+                                            updated = [...enrolledCourses, ...stored, course]
+                                        } else {
+                                            updated = [...enrolledCourses, course]
                                         }
-                                        setEnrolledCourses(updated.filter((v,i,a)=>a.findIndex(v2=>(v2.id===v.id))===i))
-                                        window.sessionStorage.setItem(user.username, JSON.stringify(updated.filter((v,i,a)=>a.findIndex(v2=>(v2.id===v.id))===i)))
+                                        setEnrolledCourses(updated.filter((v, i, a) => a.findIndex(v2 => (v2.id === v.id)) === i))
+                                        window.sessionStorage.setItem(user.username, JSON.stringify(updated.filter((v, i, a) => a.findIndex(v2 => (v2.id === v.id)) === i)))
                                     }}>{enrolledCourses.filter(enrolled => enrolled.id === course.id).length > 0 ? "Enrolled" : "Enroll"}</button>
                                 </div> : <div className="align-row">
                                     {(isEditing && courseToEdit.id === course.id ?
@@ -263,7 +267,11 @@ export default function CoursesPage({ isEnrolling }) {
                         </li>
                     })
                     :
-                    enrolledCourses.filter(c => { return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) || `${c.id}`.includes(searchTerm)  }).map((course) => {
+                    enrolledCourses.filter(c => {
+                        return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            `${c.id}`.includes(searchTerm) ||
+                            c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
+                    }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
