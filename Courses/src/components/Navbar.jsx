@@ -11,7 +11,7 @@ export default function TopNavBar() {
 
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
-        if(user && user != null) {
+        if(user && user.username !== null) {
             setUser(user)
         } else {
             window.location.replace("/")
