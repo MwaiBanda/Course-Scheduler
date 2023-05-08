@@ -7,12 +7,12 @@ import CartWidget from './CartWidget';
 import { useState, useEffect } from 'react';
 
 export default function TopNavBar() {
-    const [user, serUser] = useState({});
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
-        if(user) {
-            serUser(user)
+        if(user && user != null) {
+            setUser(user)
         } else {
             window.location.replace("/")
         }
