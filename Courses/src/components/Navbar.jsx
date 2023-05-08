@@ -14,6 +14,7 @@ export default function TopNavBar() {
         if(user && user !== null) {
             setUser(user)
             console.log("not NUll")
+            console.log(typeof user)
         } else {
             console.log("is NUll")
             window.location.replace("/")
