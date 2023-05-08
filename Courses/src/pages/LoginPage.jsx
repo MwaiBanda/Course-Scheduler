@@ -88,6 +88,7 @@ export default function LoginPage({ onRedirect }) {
 
     useEffect(() => {
       fetchUsers()
+      window.sessionStorage.setItem("currentUser",null);
     }, [])
 
     //Test User Login Info (Will Be Moved To External Source Later)
@@ -143,6 +144,8 @@ export default function LoginPage({ onRedirect }) {
 
         }
     };
+
+    
 
     //Return Message To Show That User Is Logged In
     return <>
