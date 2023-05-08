@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 
 export default function UserPage({ isDisplayingFaculty }) {
     const [users, setUsers] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
 
     async function fetchUsers() {
         try {
@@ -28,11 +29,14 @@ export default function UserPage({ isDisplayingFaculty }) {
 
     return (
         <>
-            <TopNavBar />
+            <TopNavBar onSearch={(search) => {
+                console.log('Searching...' + search)
+                setSearchTerm(search)
+            }}/>
             {isDisplayingFaculty ?
                 <ul>
                     {
-                        users.filter(user => user.account === 'teacher').map(user => {
+                        users.filter(user => user.account === 'teacher' && user.username.includes(searchTerm)).map(user => {
                             return <li className="course"  key={user.username}>
                                     <div className="align-left pad-start">
                                         <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Admin" }</h5>
@@ -46,7 +50,7 @@ export default function UserPage({ isDisplayingFaculty }) {
                     }
                 </ul> : <ul>
                     {
-                        users.filter(user => user.account === 'student').map(user => {
+                        users.filter(user => user.account === 'student' && user.username.includes(searchTerm) ).map(user => {
                             return  <li className="course" key={user.username}>
                             <div className="align-left pad-start">
                                 <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Student" }</h5>

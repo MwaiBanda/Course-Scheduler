@@ -114,6 +114,7 @@ export default function CoursesPage({ isEnrolling }) {
                         setCourseName(e.target.value);
                     }} />
                 </div> : <h1>{course.courseName}</h1>}
+            <p><b>Course ID</b>: {course.id}</p>
             {isEditing && courseToEdit.id === course.id ?
                 <div className="align-left pad-start">
                     <label htmlFor="subjectArea"><b>Subject</b>: </label>
@@ -200,7 +201,7 @@ export default function CoursesPage({ isEnrolling }) {
             {AddCourseBar()}
             <ul className='nobull'>
                 {isEnrolling ?
-                    courses.filter(c => { return c.courseName.includes(searchTerm) || courses.length < 0 }).map((course) => {
+                    courses.filter(c => { return c.courseName.includes(searchTerm) || `${c.id}`.includes(searchTerm) }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
@@ -262,7 +263,7 @@ export default function CoursesPage({ isEnrolling }) {
                         </li>
                     })
                     :
-                    enrolledCourses.filter(c => { return c.courseName.includes(searchTerm) || courses.length < 0 }).map((course) => {
+                    enrolledCourses.filter(c => { return c.courseName.includes(searchTerm) || `${c.id}`.includes(searchTerm)  }).map((course) => {
                         return <li className="course" key={course.id}>
                             <div className="align-column">
                                 {CourseContent(course)}
