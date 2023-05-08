@@ -39,13 +39,13 @@ export default function UserPage({ isDisplayingFaculty }) {
                         users.filter(user => user.account === 'teacher' && user.username.toLowerCase().includes(searchTerm.toLowerCase())).map(user => {
                             return <li className="course"  key={user.username}>
                                     <div className="align-left pad-start">
-                                        <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Admin" }</h5>
+                                        <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Faculty" }</h5>
                                         <h5><small className='text-muted'>Username</small>: {user.username}</h5>
                                         <h5><small className='text-muted'>Password</small>: {user.password}</h5>
                                         <h5><small className='text-muted'>Role</small>: Faculty</h5>
-                                        <h5><small className='text-muted'>Department</small>: Admin</h5>
-                                        <h5><small className='text-muted'>School</small>: Admin</h5>
-                                        <h5><small className='text-muted'>Description</small>: Admin</h5>
+                                        <h5><small className='text-muted'>Department</small>: {user.department ? user.department : "Unset"}</h5>
+                                        <h5><small className='text-muted'>School</small>: {user.school ? user.school : "Unset"}</h5>
+                                        <h5><small className='text-muted'>Description</small>: {user.school ? user.school : "Unset"}</h5>
                                         <h5><small className='text-muted'>Account Created</small>: {user.createdAt ? user.createdAt  : new Date("2023-05-1").toDateString() }</h5>
                                     </div>
                                 </li>
