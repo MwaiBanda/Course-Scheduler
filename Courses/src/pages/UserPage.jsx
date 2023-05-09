@@ -2,6 +2,7 @@ import TopNavBar from '@/components/Navbar';
 import { useState, useEffect } from "react"
 
 export default function UserPage({ isDisplayingFaculty }) {
+    const [currentUser, setUser] = useState({});
     const [users, setUsers] = useState([])
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -25,6 +26,12 @@ export default function UserPage({ isDisplayingFaculty }) {
 
     useEffect(() => {
         fetchUsers()
+        const user = JSON.parse(window.sessionStorage.getItem("currentUser"))
+        if (user) {
+            setUser(user)
+        } else {
+            window.location.replace("/")
+        }
     }, [])
 
     return (
@@ -43,8 +50,8 @@ export default function UserPage({ isDisplayingFaculty }) {
                             return <li className="course"  key={user.username}>
                                     <div className="align-left pad-start">
                                         <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Faculty" }</h5>
-                                        <h5><small className='text-muted'>Username</small>: {user.username}</h5>
-                                        <h5><small className='text-muted'>Password</small>: {user.password}</h5>
+                                        <h5><small className='text-muted'>Username</small>: {currentUser.username === user.username ? user.username : ("*".repeat(user.username.length - 3) + user.username.substring(user.username.length - 3))}</h5>
+                                        <h5><small className='text-muted'>Password</small>: {currentUser.username === user.username ? user.password : ("*".repeat(user.password.length - 3) + user.password.substring(user.password.length - 3))}</h5>
                                         <h5><small className='text-muted'>Role</small>: Faculty</h5>
                                         <h5><small className='text-muted'>Department</small>: {user.department ? user.department : "Unset"}</h5>
                                         <h5><small className='text-muted'>School</small>: {user.school ? user.school : "Unset"}</h5>
@@ -63,7 +70,8 @@ export default function UserPage({ isDisplayingFaculty }) {
                             return  <li className="course" key={user.username}>
                             <div className="align-left pad-start">
                                 <h5><small className='text-muted'>Name</small>: {user.name ? user.name : "Student" }</h5>
-                                <h5><small className='text-muted'>Username</small>: {user.username}</h5>
+                                <h5><small className='text-muted'>Username</small>: {currentUser.username === user.username ? user.username : ("*".repeat(user.username.length - 3) + user.username.substring(user.username.length - 3))}</h5>
+                                <h5><small className='text-muted'>Password</small>: {currentUser.username === user.username ? user.password : ("*".repeat(user.password.length - 3) + user.password.substring(user.password.length - 3))}</h5>
                                 <h5><small className='text-muted'>Role</small>: Student</h5>
                                 <h5><small className='text-muted'>Account Created</small>: {user.createdAt ? user.createdAt  : new Date("2023-05-1").toDateString() }</h5>
                             </div>
