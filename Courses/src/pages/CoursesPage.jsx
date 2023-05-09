@@ -36,15 +36,64 @@ export default function CoursesPage({ isDisplayingSchedule }) {
             console.log(e);
         }
     }
+    async function fetchAllCourses() {
+        try {
+            const res = await fetch("https://groupbackend.onrender.com/courses", {
+                method: "GET",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+            })
+
+            const remoteCourses = await res.json();
+            console.log(remoteCourses)
+            if (remoteCourses.length > 0) {
+                setCourse(JSON.parse(JSON.stringify(remoteCourses)))
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function fetchCoursesForUser(username) {
+        try {
+            const res = await fetch(`https://groupbackend.onrender.com/courses/user/${username}`, {
+                method: "GET",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+            })
+
+            const remoteCourses = await res.json();
+            console.log(remoteCourses)
+            if (remoteCourses.length > 0) {
+                setEnrolledCourses(JSON.parse(JSON.stringify(remoteCourses)))
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function postCoursesForUser(username, data) {
+        try {
+            await fetch(`https://groupbackend.onrender.com/courses/user/${username}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    referrerPolicy: "no-referrer",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            )
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     if (isDisplayingSchedule) {
         useEffect(() => {
             const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
-            const schedules = JSON.parse(window.sessionStorage.getItem(current.username))
-            console.log(schedules)
-            if (schedules) {
-                setEnrolledCourses(schedules)
-            }
-
+            fetchCoursesForUser(current.username)
         }, [])
     } else {
         useEffect(() => {
@@ -60,25 +109,8 @@ export default function CoursesPage({ isDisplayingSchedule }) {
         }, [courseToDelete]);
 
         useEffect(() => {
-            async function fetchData() {
-                try {
-                    const res = await fetch("https://groupbackend.onrender.com/courses", {
-                        method: "GET",
-                        mode: "cors",
-                        referrerPolicy: "no-referrer",
-                    })
-
-                    const remoteCourses = await res.json();
-                    console.log(remoteCourses)
-                    if (remoteCourses.length > 0) {
-                        setCourse(JSON.parse(JSON.stringify(remoteCourses)))
-                    }
-                } catch (e) {
-                    console.log(e);
-                }
-            }
             try {
-                fetchData()
+                fetchAllCourses()
             } catch (e) {
                 console.log(e);
             }
@@ -88,10 +120,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
             } else {
                 window.location.replace("/")
             }
-            const stored = JSON.parse(window.sessionStorage.getItem(user.username))
-            if (stored) {
-                setEnrolledCourses(stored)
-            }
+            fetchCoursesForUser(user.username)
         }, [])
     }
 
@@ -204,85 +233,85 @@ export default function CoursesPage({ isDisplayingSchedule }) {
             {AddCourseBar()}
             <ul className='nobull'>
                 {isDisplayingSchedule ? enrolledCourses.filter(c => {
-                        return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            `${c.id}`.includes(searchTerm) ||
-                            c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
-                    }).map((course) => {
-                        return <li className="course" key={course.id}>
-                            <div className="align-column">
-                                {CourseContent(course)}
-                                <button className="btn btn-dark" onClick={() => {
-                                    const updatedCourses = enrolledCourses.filter((enrolled) => enrolled.id !== course.id)
-                                    setEnrolledCourses(updatedCourses)
-                                    const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
-                                    window.sessionStorage.setItem(current.username, JSON.stringify(updatedCourses))
-                                }}>Unenroll</button>
-                            </div>
-                        </li>
-                    }) : courses.filter(c => {
-                        return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            `${c.id}`.includes(searchTerm) ||
-                            c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
-                    }).map((course) => {
-                        return <li className="course" key={course.id}>
-                            <div className="align-column">
-                                {CourseContent(course)}
+                    return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        `${c.id}`.includes(searchTerm) ||
+                        c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
+                }).map((course) => {
+                    return <li className="course" key={course.id}>
+                        <div className="align-column">
+                            {CourseContent(course)}
+                            <button className="btn btn-dark" onClick={() => {
+                                const updatedCourses = enrolledCourses.filter((enrolled) => enrolled.id !== course.id)
+                                setEnrolledCourses(updatedCourses)
+                                const current = JSON.parse(window.sessionStorage.getItem("currentUser"))
+                                postCoursesForUser(current.username, updatedCourses)
+                            }}>Unenroll</button>
+                        </div>
+                    </li>
+                }) : courses.filter(c => {
+                    return c.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        `${c.id}`.includes(searchTerm) ||
+                        c.subjectArea.toLowerCase().includes(searchTerm.toLowerCase())
+                }).map((course) => {
+                    return <li className="course" key={course.id}>
+                        <div className="align-column">
+                            {CourseContent(course)}
 
-                                {user.account === 'student' ? <div className="align-row">
-                                    <button className="btn btn-dark" onClick={() => {
-                                        const stored = JSON.parse(window.sessionStorage.getItem(user.username))
-                                        let updated = []
-                                        if (stored) {
-                                            updated = [...enrolledCourses, ...stored, course]
-                                        } else {
-                                            updated = [...enrolledCourses, course]
-                                        }
-                                        setEnrolledCourses(updated.filter((v, i, a) => a.findIndex(v2 => (v2.id === v.id)) === i))
-                                        window.sessionStorage.setItem(user.username, JSON.stringify(updated.filter((v, i, a) => a.findIndex(v2 => (v2.id === v.id)) === i)))
-                                    }}>{enrolledCourses.filter(enrolled => enrolled.id === course.id).length > 0 ? "Enrolled" : "Enroll"}</button>
-                                </div> : <div className="align-row">
-                                    {(isEditing && courseToEdit.id === course.id ?
-                                        <button onClick={() => {
-                                            courses.forEach((course) => {
-                                                if (course.id == courseToEdit.id) {
-                                                    course.courseName = courseName
-                                                    course.subjectArea = subjectArea
-                                                    course.numberOfCredits = numberOfCredits
-                                                    course.description = description
-                                                }
-                                            })
-                                            setCourse(courses)
-                                            if (courses.length > 0) {
-                                                try {
-                                                    postCourses(courses)
-                                                } catch (e) {
-                                                    console.log(e);
-                                                }
-                                            }
-                                            setIsEditing(false)
-                                            resetDefualts()
-                                        }} className="btn btn-success pad-end"> Save </button> : <div></div>)
+                            {user.account === 'student' ? <div className="align-row">
+                                <button className="btn btn-dark" onClick={() => {
+                                    const stored = JSON.parse(window.sessionStorage.getItem(user.username))
+                                    let updated = []
+                                    if (stored) {
+                                        updated = [...enrolledCourses, ...stored, course]
+                                    } else {
+                                        updated = [...enrolledCourses, course]
                                     }
+                                    setEnrolledCourses(updated.filter((v, i, a) => a.findIndex(v2 => (v2.id === v.id)) === i))
+                                    postCoursesForUser(user.username, updated.filter((v, i, a) => a.findIndex(v2 => (v2.id === v.id)) === i))
+                                }}>{enrolledCourses.filter(enrolled => enrolled.id === course.id).length > 0 ? "Enrolled" : "Enroll"}</button>
+                            </div> : <div className="align-row">
+                                {(isEditing && courseToEdit.id === course.id ?
                                     <button onClick={() => {
-                                        setIsEditing(!isEditing)
-                                        setCourseToEdit(course)
-                                        setCourseName(course.courseName)
-                                        setSubjectArea(course.subjectArea)
-                                        setDescription(course.description)
-                                        setNumberOfCredits(course.numberOfCredits)
-                                        if (isEditing) {
-                                            resetDefualts()
+                                        courses.forEach((course) => {
+                                            if (course.id == courseToEdit.id) {
+                                                course.courseName = courseName
+                                                course.subjectArea = subjectArea
+                                                course.numberOfCredits = numberOfCredits
+                                                course.description = description
+                                            }
+                                        })
+                                        setCourse(courses)
+                                        if (courses.length > 0) {
+                                            try {
+                                                postCourses(courses)
+                                            } catch (e) {
+                                                console.log(e);
+                                            }
                                         }
-                                    }} className="btn btn-primary pad-end"> Edit </button>
-                                    <button onClick={() => {
-                                        if (user.username === course.user) {
-                                            setCourseToDelete(course)
-                                        }
-                                    }} className="btn btn-danger"> Delete </button>
-                                </div>}
-                            </div>
-                        </li>
-                    })
+                                        setIsEditing(false)
+                                        resetDefualts()
+                                    }} className="btn btn-success pad-end"> Save </button> : <div></div>)
+                                }
+                                <button onClick={() => {
+                                    setIsEditing(!isEditing)
+                                    setCourseToEdit(course)
+                                    setCourseName(course.courseName)
+                                    setSubjectArea(course.subjectArea)
+                                    setDescription(course.description)
+                                    setNumberOfCredits(course.numberOfCredits)
+                                    if (isEditing) {
+                                        resetDefualts()
+                                    }
+                                }} className="btn btn-primary pad-end"> Edit </button>
+                                <button onClick={() => {
+                                    if (user.username === course.user) {
+                                        setCourseToDelete(course)
+                                    }
+                                }} className="btn btn-danger"> Delete </button>
+                            </div>}
+                        </div>
+                    </li>
+                })
                 }
             </ul>
         </>
