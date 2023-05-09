@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function LoginPage() {
+    const [user, setUser] = useState({});
     const [name, setName] = useState("");
     const [role, setRole] = useState("");
     const [username, setUsername] = useState("");
@@ -213,8 +214,6 @@ export default function LoginPage() {
             alert('All inputs are required')
         } 
     };
-
-
 
     //Return Message To Show That User Is Logged In
     return <>
