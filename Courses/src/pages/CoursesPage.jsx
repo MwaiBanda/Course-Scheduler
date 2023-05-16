@@ -78,9 +78,9 @@ export default function CoursesPage({ isDisplayingSchedule }) {
         }
     }
 
-    async function fetchNumberOfStudentsEnrolledForCOurse(cousrseId) {
+    async function fetchCourseInfo(cousrseId) {
         try {
-            const res = await fetch(`https://groupbackend.onrender.com/students-enrolled/course/${cousrseId}`, {
+            const res = await fetch(`https://groupbackend.onrender.com/info/course/${cousrseId}`, {
                 method: "GET",
                 mode: "cors",
                 referrerPolicy: "no-referrer",
@@ -290,7 +290,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
                                 <button className="btn btn-secondary mar-start" onClick={() => {
                                     handleShowModal()
                                     setCurrentCourse(course)
-                                    fetchNumberOfStudentsEnrolledForCOurse(course.id)
+                                    fetchCourseInfo(course.id)
                                 }}>
                                     View
                                 </button>
@@ -312,7 +312,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
                                 <button className="btn btn-secondary mar-start" onClick={() => {
                                     handleShowModal()
                                     setCurrentCourse(course)
-                                    fetchNumberOfStudentsEnrolledForCOurse(course.id)
+                                    fetchCourseInfo(course.id)
                                 }}>
                                     View
                                 </button>
