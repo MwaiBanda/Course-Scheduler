@@ -17,6 +17,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
     const [showModal, setModalShow] = useState(false);
     const [courses, setCourse] = useState([]);
     const [enrolledCourses, setEnrolledCourses] = useState([]);
+    const [numberOfEnrolledStudents, setNumberOfEnrolledStudents] = useState(0);
 
     const handleCloseModal = () => setModalShow(false);
     const handleShowModal = () => setModalShow(true);
@@ -71,6 +72,24 @@ export default function CoursesPage({ isDisplayingSchedule }) {
             console.log(remoteCourses)
             if (remoteCourses.length > 0) {
                 setCourse(JSON.parse(JSON.stringify(remoteCourses)))
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function fetchNumberOfStudentsEnrolledForCOurse(cousrseId) {
+        try {
+            const res = await fetch(`https://groupbackend.onrender.com/students-enrolled/course/${cousrseId}`, {
+                method: "GET",
+                mode: "cors",
+                referrerPolicy: "no-referrer",
+            })
+
+            const enrolledStudents = await res.json();
+            console.log(enrolledStudents)
+            if (enrolledStudents) {
+                setNumberOfEnrolledStudents(JSON.parse(JSON.stringify(enrolledStudents.numberOfEnrolledStudents)))
             }
         } catch (e) {
             console.log(e);
@@ -271,6 +290,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
                                 <button className="btn btn-secondary mar-start" onClick={() => {
                                     handleShowModal()
                                     setCurrentCourse(course)
+                                    fetchNumberOfStudentsEnrolledForCOurse(course.id)
                                 }}>
                                     View
                                 </button>
@@ -292,6 +312,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
                                 <button className="btn btn-secondary mar-start" onClick={() => {
                                     handleShowModal()
                                     setCurrentCourse(course)
+                                    fetchNumberOfStudentsEnrolledForCOurse(course.id)
                                 }}>
                                     View
                                 </button>
@@ -356,7 +377,7 @@ export default function CoursesPage({ isDisplayingSchedule }) {
                         <p><b>Description</b>: {currentCourse.description}</p>
                         <p><b>Number of Credits</b>: {currentCourse.numberOfCredits}</p>
                         <p><b>Teacher</b>: {currentCourse.user ? currentCourse.user : "Admin"}</p>
-                        <p><b>Number Of Students</b>: 0 </p>
+                        <p><b>Number Of Students</b>: {numberOfEnrolledStudents}</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -366,8 +387,10 @@ export default function CoursesPage({ isDisplayingSchedule }) {
                     {enrolledCourses.filter(enrolled => enrolled.id === currentCourse.id).length > 0 ?
                         <Button variant="danger" onClick={() => {
                             handleCourseDrop(currentCourse)
+                            setNumberOfEnrolledStudents(numberOfEnrolledStudents - 1)
                         }}>Drop</Button> : user.account === "student"  ? <Button variant="primary" onClick={() => {
                             handleCourseEnroll(currentCourse)
+                            setNumberOfEnrolledStudents(numberOfEnrolledStudents + 1)
                         }}>Enroll</Button> : <></>}
                 </Modal.Footer>
             </Modal>
